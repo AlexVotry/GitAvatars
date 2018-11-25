@@ -10,7 +10,7 @@ import { ApiService } from './service/api.service';
 @NgModule({
   declarations: [
     AppComponent,
-    AvatarsComponent
+    AvatarsComponent,
   ],
   imports: [
     BrowserModule,

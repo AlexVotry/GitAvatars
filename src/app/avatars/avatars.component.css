@@ -1,10 +1,31 @@
-.avatars {
+.followers {
+  position: absolute;
+  top: 100px;
+  left: 200px;
+  /*height: 80vh;*/
+  width: 80vw;
+  padding: 10px;
+  background-color: #FF9C33;
+  border-radius: 25px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+.avatars, .list {
   display: flex;
   flex-wrap: wrap;
 }
-
-.avatars img {
-  height: 50px;
-  width: 50px;
+.avatar, .followerAvatar {
+  width: 100px;
   margin: 5px;
+}
+
+.avatar:hover {
+  border: 3px solid blue;
+}
+
+.card img {
+  width: 100%;
 }

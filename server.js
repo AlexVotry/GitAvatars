@@ -2,6 +2,7 @@ const express = require('express');
 const path = require('path');
 const cors = require('cors');
 const apiRouter = require('./routes/avatars');
+const followerRouter = require('./routes/followers');
 const app = express();
 require('dotenv').load();
 
@@ -15,21 +16,7 @@ app.get('/', (req,res) => {
 });;
 
 app.use('/avatars', apiRouter);
-
-// app.get('/avatars', (req, res) => {
-//   res.send({
-//   "heroesUrl": "api/heroes",
-//   "textfile": "assets"
-//   });
-// });
-
-app.get('/avatars/:id', (req, res) => {
-  let id = req.params.id;
-  res.send(`Avatars: ${id}`);
-});
-
-
-
+app.use('/followers', followerRouter);
 
 const PORT = '4000';
 app.listen(PORT, () => {

@@ -16,7 +16,35 @@ export class ApiService {
     return this.http.get(`${this.uri}/avatars`);
   }
 
+  getfollowers(login) {
+    return this.http.get(`${this.uri}/followers/${login}`);
+  }
+
   getAvatarById(id) {
     return this.http.get(`${this.uri}/avatars/${id}`);
   }
+
+  public mockData = [
+    {
+      avatar: "https://avatars3.githubusercontent.com/u/614?v=4",
+      details: "https://api.github.com/users/andykent",
+      followers: "https://api.github.com/users/andykent/followers",
+      id: 1008,
+      login: "andykent"
+    },
+    {
+      avatar: "https://avatars0.githubusercontent.com/u/1?v=4",
+      details: "https://api.github.com/users/mojombo",
+      followers: null,
+      id: 1015,
+      login: "mojombo",
+    },
+    {
+      avatar: "https://avatars3.githubusercontent.com/u/665?v=4",
+      details: "https://api.github.com/users/zachinglis",
+      followers: "https://api.github.com/users/zachinglis/followers",
+      id: 1017,
+      login: "zachinglis"
+    }
+  ]
 }
