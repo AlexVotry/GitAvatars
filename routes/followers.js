@@ -2,52 +2,43 @@ const express = require('express');
 const Request = require('request');
 const router = express.Router();
 
-router.get('/', function(req, res, next) {
-  let countPage = 2;
+router.get('/:followers', function(req, res, next) {
+  let login = req.params.followers;
   const gitHub = {
     headers: {
       'User-Agent': process.env.USERAGENT,
       'If-None-Match': "c0f459ba51d4153b12424a882726357b",
     },
-    uri: process.env.GITHUB_API + '?since=1000&page=' + countPage + '&per_page=100'
+    uri: process.env.GITHUB_USER + login + '/followers'
   };
+
   Request.get(gitHub, (error, response, body) => {
     if(error) {
       return console.log(error);
     }
     eTag = response.headers.etag;
-    console.log('link: ', response.headers.link);
+    // console.log('link: ', response.headers.link);
     console.log('remaining: ', response.headers['x-ratelimit-remaining']);
-    console.log('etag: ', eTag);
-    let avatars = refineOutput(body,eTag);
+    let followers = refineOutput(body, eTag, login);
 
-    res.send(avatars);
+    res.send(followers);
   });
 });
 
-function refineOutput(body, etag) {
+function refineOutput(body, etag, login) {
   let repos = [];
   let response = [];
   let jBody = JSON.parse(body);
 
   jBody.forEach(repo => {
     repos.push({
-      id: repo.id,
-      login: repo.owner.login,
-      avatar: repo.owner.avatar_url,
-      followers: checkForA(repo.owner),
-      details: repo.owner.url
+      login: repo.login,
+      avatar: repo.avatar_url
     });
   });
 
-  response.push(repos, etag);
+  response.push(repos, etag, login);
   return response;
 };
-
-function checkForA(user) {
-  let login = user.login;
-
-  return login.toLowerCase().startsWith('a') ? true : false;
-}
 
 module.exports = router;
