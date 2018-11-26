@@ -1,19 +1,36 @@
-  <div class="avatars" *ngIf="users">
-    <div class="card avatar" *ngFor="let user of users" (mouseover)="checkFollowers(user)">
-      <img class="card-img-top" src="{{ user.avatar }}" alt="Card image cap">
-      <p class="card-title">{{ user.login }}</p>
+<div class="avatars" *ngIf="users">
+  <div class="card avatar" *ngFor="let user of users" (mouseover)="checkFollowers(user)" (click)="getDetails(user.login)">
+    <img class="card-img-top" src="{{ user.avatar }}" alt="Card image cap">
+    <p class="card-title">{{ user.login }}</p>
+  </div>
+</div>
+
+<div class="followerBkgrd" *ngIf="showFollowers">
+  <div class="followers" *ngIf="followers">
+    <h4>List of Followers for {{ member }}</h4>
+    <ul class="list" >
+      <li class="followerList" *ngFor="let follower of followers">
+        <img class="followerAvatar" src="{{ follower.avatar }}" alt="avatar">
+        <p>{{ follower.login }}</p>
+      </li>
+    </ul>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
     </div>
   </div>
+</div>
 
-<div class="followers" *ngIf="showFollowers">
-  <h4>List of Followers for {{ member }}</h4>
-  <ul class="list" >
-    <li class="followerList" *ngFor="let follower of followers">
-      <img class="followerAvatar" src="{{ follower.avatar }}" alt="avatar">
-      <p>{{ follower.login }}</p>
-    </li>
-  </ul>
-  <div class="modal-footer">
-    <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+<div class="detailBkgrd" *ngIf="showDetails">
+  <div class="details" *ngIf="details">
+    <h4>Details for <a [href]="details.html_url" target="_blank">{{ details.login }}</a></h4>
+    <ul>
+      <li *ngIf="details.name">Name: {{ details.name }} </li>
+      <li *ngIf="details.company">Company: {{ details.company }}</li>
+      <li>Number of followers: {{ details.followers }}</li>
+      <li *ngIf="details.location">Location: {{ details.location}}</li>
+    </ul>
+    <div class="modal-footer">
+      <button type="button" class="btn btn-secondary" (click)="closeModal()">Close</button>
+    </div>
   </div>
 </div>

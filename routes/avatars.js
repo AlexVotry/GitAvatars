@@ -25,6 +25,30 @@ router.get('/', function(req, res, next) {
   });
 });
 
+router.get('/:login', function(req, res, next) {
+  let countPage = 2;
+  let login = req.params.login;
+  const gitHub = {
+    headers: {
+      'User-Agent': process.env.USERAGENT,
+      'If-None-Match': "c0f459ba51d4153b12424a882726357b",
+    },
+    uri: process.env.GITHUB_USER + login
+  };
+  Request.get(gitHub, (error, response, body) => {
+    if(error) {
+      return console.log(error);
+    }
+    eTag = response.headers.etag;
+    console.log('link: ', response.headers.link);
+    console.log('remaining: ', response.headers['x-ratelimit-remaining']);
+    console.log('etag: ', eTag);
+    let avatars = refineDetails(body);
+
+    res.send(JSON.parse(body));
+  });
+});
+
 function refineOutput(body, etag) {
   let repos = [];
   let response = [];
@@ -43,6 +67,18 @@ function refineOutput(body, etag) {
   response.push(repos, etag);
   return response;
 };
+
+function parseDetails(body) {
+  let response = [];
+  let jBody = JSON.parse(body);
+
+  jBody.forEach(detail => {
+    name: detail.name,
+    company: detail.company,
+    followers: detail.followers,
+    Locaion: detail.location
+  })
+}
 
 function checkForA(user) {
   let login = user.login;

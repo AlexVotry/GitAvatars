@@ -15,34 +15,41 @@ export class AvatarsComponent implements OnInit {
   public showFollowers = false;
   public followers;
   public member;
+  public showDetails;
+  public details;
 
   ngOnInit() {
     this.getAvatars();
-    // this.users = this._http.mockData;
-    // console.log("users: ", this.users);
   }
 
   getAvatars() {
     this._http.getAvatars()
-      .subscribe(avatars => {
-        this.users = avatars[0];
-      });
+    .subscribe(avatars => {
+      this.users = avatars[0];
+    });
+  }
+
+  getDetails(user) {
+    this._http.getDetails(user)
+    .subscribe(details => {
+      this.details = details;
+    });
+    this.showDetails = true;
   }
 
   checkFollowers(user) {
     if (user.followers) {
       this._http.getfollowers(user.login)
-        .subscribe(followers => {
-          this.followers = followers[0];
-          this.member = followers[2];
-          console.log("followers: ", this.followers);
-          console.log("member: ", this.member);
-        });
+      .subscribe(followers => {
+        this.followers = followers[0];
+        this.member = followers[2];
+      });
       this.showFollowers = true;
     }
   }
 
   closeModal() {
     this.showFollowers = false;
+    this.showDetails = false;
   }
 }
