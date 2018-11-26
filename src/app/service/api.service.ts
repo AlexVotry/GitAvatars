@@ -15,14 +15,13 @@ export class ApiService {
   getAvatars() {
     return this.http.get(`${this.uri}/avatars`);
   }
-
+  getDetails(user) {
+    return this.http.get(`${this.uri}/avatars/${user}`);
+  }
   getfollowers(login) {
     return this.http.get(`${this.uri}/followers/${login}`);
   }
 
-  getAvatarById(id) {
-    return this.http.get(`${this.uri}/avatars/${id}`);
-  }
 
   public mockData = [
     {
