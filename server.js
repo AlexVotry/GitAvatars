@@ -3,6 +3,7 @@ const path = require('path');
 const cors = require('cors');
 const apiRouter = require('./routes/avatars');
 const followerRouter = require('./routes/followers');
+const searchRouter = require('./routes/search');
 const app = express();
 require('dotenv').load();
 
@@ -17,6 +18,7 @@ app.get('/', (req,res) => {
 
 app.use('/avatars', apiRouter);
 app.use('/followers', followerRouter);
+app.use('/search', searchRouter);
 
 const PORT = '4000';
 app.listen(PORT, () => {

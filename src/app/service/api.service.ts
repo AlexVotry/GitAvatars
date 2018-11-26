@@ -21,6 +21,9 @@ export class ApiService {
   getfollowers(login) {
     return this.http.get(`${this.uri}/followers/${login}`);
   }
+  searchAvatars(q, filter) {
+    return this.http.get(`${this.uri}/search/${filter}/${q}`)
+  }
 
 
   public mockData = [
