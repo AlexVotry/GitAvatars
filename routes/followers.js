@@ -1,6 +1,6 @@
 const express = require('express');
-const Request = require('request');
 const router = express.Router();
+const request = require('../services/requests');;
 
 router.get('/:followers', function(req, res, next) {
   let login = req.params.followers;
@@ -8,37 +8,12 @@ router.get('/:followers', function(req, res, next) {
     headers: {
       'User-Agent': process.env.USERAGENT,
       'If-None-Match': "c0f459ba51d4153b12424a882726357b",
+      'If-Modified-Since': 'Tue, 27 Nov 2018 17:06:47 GMT'
     },
     uri: process.env.GITHUB_USER + login + '/followers'
   };
 
-  Request.get(gitHub, (error, response, body) => {
-    if(error) {
-      return console.log(error);
-    }
-    eTag = response.headers.etag;
-    // console.log('link: ', response.headers.link);
-    console.log('remaining: ', response.headers['x-ratelimit-remaining']);
-    let followers = refineOutput(body, eTag, login);
-
-    res.send(followers);
-  });
+  request.doRequest(gitHub, res, login);
 });
-
-function refineOutput(body, etag, login) {
-  let repos = [];
-  let response = [];
-  let jBody = JSON.parse(body);
-
-  jBody.forEach(repo => {
-    repos.push({
-      login: repo.login,
-      avatar: repo.avatar_url
-    });
-  });
-
-  response.push(repos, etag, login);
-  return response;
-};
 
 module.exports = router;
