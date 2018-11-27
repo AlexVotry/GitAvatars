@@ -23,7 +23,7 @@ export class AppComponent {
   getAvatars() {
     this._http.getAvatars()
     .subscribe(avatars => {
-      this.users = avatars[0];
+      this.users = avatars;
       this._broadcaster.updateAvatar(this.users);
     });
   }
@@ -31,8 +31,7 @@ export class AppComponent {
   getQuery() {
     this._http.searchAvatars(this.queryString, this.filter)
     .subscribe(avatars => {
-      console.log('app.avatars: ', avatars[0]);
-      this._broadcaster.updateAvatar(avatars[0]);
+      this._broadcaster.updateAvatar(avatars);
     });
   }
 }

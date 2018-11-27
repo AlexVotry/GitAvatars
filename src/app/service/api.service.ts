@@ -19,10 +19,10 @@ export class ApiService {
     return this.http.get(`${this.uri}/avatars/${user}`);
   }
   getNextAvatars(id) {
-    return this.http.get(`${this.uri}/avatars/next/${id}`)
+    return this.http.get(`${this.uri}/avatars/next/${id}`);
   }
   getPrevAvatars() {
-    return this.http.get(`${this.uri}/avatars/prev/avatars`)
+    return this.http.get(`${this.uri}/avatars/prev/avatars`);
   }
   getfollowers(login) {
     return this.http.get(`${this.uri}/followers/${login}`);

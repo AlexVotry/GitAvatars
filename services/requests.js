@@ -1,5 +1,5 @@
 const Request = require('request');
-const _ = require('lodash');
+const cache = require('memory-cache');
 
 let ifNoneMatch = [];
 let modifiedDate = new Date();
@@ -18,7 +18,6 @@ module.exports = {
       headers: gitHeader,
       uri: uri
     };
-    console.log('header: ', gitHub);
     Request.get(gitHub, (error, response, body) => {
       if(error) {
         return console.log(error);
@@ -35,9 +34,6 @@ module.exports = {
       console.log('remaining: ', response.headers['x-ratelimit-remaining']);
       if(body) {
         jBody = JSON.parse(body);
-      } else {
-        jBody = body;
-      }
         if (id == 'login') {
           avatars = parseDetails(jBody, uri);
         } else if (id == 'search') {
@@ -48,16 +44,15 @@ module.exports = {
         } else {
           avatars = parseFollowers(jBody, id, uri)
         }
-
+      } else {
+        avatars = cache.get(uri)
+      }
       res.send(avatars);
     });
   }
 }
 
 function parseAvatars(body, uri) {
-  if (!body) {
-    return _.result(_.find(avatarList, { 'uri': uri }), 'repos');
-  }
   let repos = [];
   body.forEach(repo => {
     repos.push({
@@ -67,14 +62,11 @@ function parseAvatars(body, uri) {
       followers: checkForA(repo.owner),
     });
   });
-  avatarList.push({ uri: uri, repos: repos });
+  cache.put(uri, repos);
   return repos;
 };
 
 function parseDetails(detail, uri) {
-  if (!detail) {
-    return _.result(_.find(detailList, { 'uri': uri }), 'details');
-  }
   let details = {
     login: detail.login,
     name: detail.name,
@@ -84,14 +76,11 @@ function parseDetails(detail, uri) {
     html_url: detail.html_url,
     avatar: detail.avatar_url
   };
-  detailList.push({ uri: uri, details: details })
+  cache.put(uri, details);
   return details;
 }
 
 function parseFollowers(body, login, uri) {
-  if (!body) {
-    return _.result(_.find(followerList, { 'uri': uri }), 'followers');
-  }
   let followers = [];
   let response = [];
 
@@ -103,7 +92,7 @@ function parseFollowers(body, login, uri) {
   });
 
   response.push(followers, login);
-  followerList.push({ uri: uri, followers: response });
+  cache.put(uri, response);
   return response;
 };
 

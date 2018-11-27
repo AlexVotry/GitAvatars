@@ -8,7 +8,7 @@ router.get('/:filter/:query', function(req, res, next) {
   let id = 'search';
   let uri = `${process.env.GITHUB_SEARCH}${filter}:${query}&sort=stars&order=desc&per_page=100`;
 
-  request.doRequest(gitHub, res, id);
+  request.doRequest(uri, res, id);
 });
 
 module.exports = router;
