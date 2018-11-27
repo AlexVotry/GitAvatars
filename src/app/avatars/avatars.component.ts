@@ -59,4 +59,22 @@ export class AvatarsComponent implements OnInit {
     this.showFollowers = false;
     this.showDetails = false;
   }
+
+  nextPage() {
+    let lastAvatar = this.users[99].id;
+    this._http.getNextAvatars(lastAvatar)
+    .subscribe(avatars => {
+      this.users = avatars[0];
+      this._broadcast.updateAvatar(this.users);
+    });
+  }
+
+  previousPage() {
+    this._http.getPrevAvatars()
+    .subscribe(avatars => {
+      this.users = avatars[0];
+      this._broadcast.updateAvatar(this.users);
+    });
+  }
+
 }
