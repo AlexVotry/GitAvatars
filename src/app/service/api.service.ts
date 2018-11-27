@@ -22,7 +22,6 @@ export class ApiService {
     return this.http.get(`${this.uri}/avatars/next/${id}`)
   }
   getPrevAvatars() {
-    console.log("getPrevAvatars");
     return this.http.get(`${this.uri}/avatars/prev/avatars`)
   }
   getfollowers(login) {

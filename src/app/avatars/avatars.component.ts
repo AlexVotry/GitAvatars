@@ -32,7 +32,7 @@ export class AvatarsComponent implements OnInit {
   getAvatars() {
     this._http.getAvatars()
     .subscribe(avatars => {
-      this.users = avatars[0];
+      this.users = avatars;
       this._broadcaster.updateAvatar(this.users);
     });
   }
@@ -50,7 +50,7 @@ export class AvatarsComponent implements OnInit {
       this._http.getfollowers(user.login)
       .subscribe(followers => {
         this.followers = followers[0];
-        this.member = followers[2];
+        this.member = followers[1];
       });
       this.showFollowers = true;
     }
@@ -65,7 +65,7 @@ export class AvatarsComponent implements OnInit {
     let lastAvatar = this.users[99].id;
     this._http.getNextAvatars(lastAvatar)
     .subscribe(avatars => {
-      this.users = avatars[0];
+      this.users = avatars;
       this._broadcaster.updateAvatar(this.users);
     });
     this.tIndex++;
@@ -74,7 +74,7 @@ export class AvatarsComponent implements OnInit {
   previousPage() {
     this._http.getPrevAvatars()
     .subscribe(avatars => {
-      this.users = avatars[0];
+      this.users = avatars;
       this._broadcaster.updateAvatar(this.users);
     });
     this.tIndex--;
