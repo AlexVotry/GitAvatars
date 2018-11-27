@@ -12,7 +12,7 @@ export class AvatarService {
   updateAvatar(avatar: {}) {
     console.log('broadcast: ', avatar);
     this.avatar = _.cloneDeep(avatar);
-    this.avatarSubject.next(_.cloneDeep(this.avatar))
+    this.avatarSubject.next(_.cloneDeep(this.avatar));
   }
 
 }

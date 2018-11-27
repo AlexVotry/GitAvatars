@@ -5,6 +5,7 @@ const apiRouter = require('./routes/avatars');
 const followerRouter = require('./routes/followers');
 const searchRouter = require('./routes/search');
 const app = express();
+require('./services/requests');
 require('dotenv').load();
 
 app.use(cors());
