@@ -18,6 +18,13 @@ export class ApiService {
   getDetails(user) {
     return this.http.get(`${this.uri}/avatars/${user}`);
   }
+  getNextAvatars(id) {
+    return this.http.get(`${this.uri}/avatars/next/${id}`)
+  }
+  getPrevAvatars() {
+    console.log("getPrevAvatars");
+    return this.http.get(`${this.uri}/avatars/prev/avatars`)
+  }
   getfollowers(login) {
     return this.http.get(`${this.uri}/followers/${login}`);
   }
