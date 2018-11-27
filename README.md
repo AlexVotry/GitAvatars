@@ -4,24 +4,16 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ## Development server
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+Run `npm start` for a nodejs server. Navigate to `http://localhost:4000/`.
 
-## Code scaffolding
+This app makes api calls to Github showing avatars of users. It is organized by repos so there are some duplicate users with more than one repo.
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+If you hover over any user with the name beginning with "a" or "A" you will see a short list of their followers.
 
-## Build
+If you click on any other user, you will get some details about them.
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `--prod` flag for a production build.
+There is a previous and next button at the bottom.
 
-## Running unit tests
+If you want to find repos based on user, topic or language just click on the filter drop-down menu and choose the filter, then type in the search box what you want to find.
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
-
-## Running end-to-end tests
-
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-
-## Further help
-
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+Click on the "AvatarGits" to reset to original state.
