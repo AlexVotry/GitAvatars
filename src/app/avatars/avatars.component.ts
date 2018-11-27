@@ -10,7 +10,7 @@ import { Subscription } from 'rxjs';
 })
 export class AvatarsComponent implements OnInit {
 
-  constructor(private _http: ApiService, private _broadcast: AvatarService) { }
+  constructor(private _http: ApiService, private _broadcaster: AvatarService) { }
 
   public subscription: Subscription;
   public users;
@@ -19,10 +19,11 @@ export class AvatarsComponent implements OnInit {
   public member;
   public showDetails;
   public details;
+  public tIndex = -1;
 
   ngOnInit() {
     this.getAvatars();
-    this.subscription = this._broadcast.avatar$
+    this.subscription = this._broadcaster.avatar$
     .subscribe(newAvatars => {
       this.users = newAvatars;
     });
@@ -32,7 +33,7 @@ export class AvatarsComponent implements OnInit {
     this._http.getAvatars()
     .subscribe(avatars => {
       this.users = avatars[0];
-      this._broadcast.updateAvatar(this.users);
+      this._broadcaster.updateAvatar(this.users);
     });
   }
 
@@ -65,16 +66,18 @@ export class AvatarsComponent implements OnInit {
     this._http.getNextAvatars(lastAvatar)
     .subscribe(avatars => {
       this.users = avatars[0];
-      this._broadcast.updateAvatar(this.users);
+      this._broadcaster.updateAvatar(this.users);
     });
+    this.tIndex++;
   }
 
   previousPage() {
     this._http.getPrevAvatars()
     .subscribe(avatars => {
       this.users = avatars[0];
-      this._broadcast.updateAvatar(this.users);
+      this._broadcaster.updateAvatar(this.users);
     });
+    this.tIndex--;
   }
 
 }

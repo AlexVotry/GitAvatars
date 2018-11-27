@@ -10,7 +10,6 @@ export class AvatarService {
   public avatar$  = this.avatarSubject.asObservable();
 
   updateAvatar(avatar: {}) {
-    console.log('broadcast: ', avatar);
     this.avatar = _.cloneDeep(avatar);
     this.avatarSubject.next(_.cloneDeep(this.avatar));
   }

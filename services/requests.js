@@ -55,17 +55,17 @@ function parseDetails(detail) {
 }
 
 function parseFollowers(body, etag, login) {
-  let repos = [];
+  let followers = [];
   let response = [];
 
-  body.forEach(repo => {
-    repos.push({
-      login: repo.login,
-      avatar: repo.avatar_url
+  body.forEach(follower => {
+    followers.push({
+      login: follower.login,
+      avatar: follower.avatar_url
     });
   });
 
-  response.push(repos, etag, login);
+  response.push(followers, etag, login);
   return response;
 };
 

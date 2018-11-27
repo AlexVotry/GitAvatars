@@ -12,7 +12,7 @@ router.get('/:filter/:query', function(req, res, next) {
       'If-None-Match': "c0f459ba51d4153b12424a882726357b",
       'If-Modified-Since': 'Tue, 27 Nov 2018 17:06:47 GMT'
     },
-    uri: process.env.GITHUB_SEARCH + filter + ':' + query + '&sort=stars&order=desc&per_page=100'
+    uri: `${process.env.GITHUB_SEARCH}${filter}:${query}&sort=stars&order=desc&per_page=100`
   };
 
   request.doRequest(gitHub, res, id);

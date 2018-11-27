@@ -20,6 +20,14 @@ export class AppComponent {
     this.filter = filter;
   }
 
+  getAvatars() {
+    this._http.getAvatars()
+    .subscribe(avatars => {
+      this.users = avatars[0];
+      this._broadcaster.updateAvatar(this.users);
+    });
+  }
+
   getQuery() {
     this._http.searchAvatars(this.queryString, this.filter)
     .subscribe(avatars => {
