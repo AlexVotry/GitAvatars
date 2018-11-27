@@ -1,3 +1,25 @@
+.avatars, .list {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.avatar, .followerAvatar {
+  width: 100px;
+  margin: 5px;
+}
+
+.avatar:hover {
+  border: 3px solid blue;
+}
+
+.card img {
+  width: 100%;
+}
+
+.details {
+  left: 40%;
+  width: 30vw;
+}
 
 .followers, .details {
   position: absolute;
@@ -7,11 +29,6 @@
   padding: 10px;
   background-color: #FF9C33;
   border-radius: 25px;
-}
-
-.details {
-  left: 40%;
-  width: 30vw;
 }
 
 .followerBkgrd, .detailBkgrd {
@@ -25,21 +42,4 @@
 
 ul {
   list-style-type: none;
-}
-
-.avatars, .list {
-  display: flex;
-  flex-wrap: wrap;
-}
-.avatar, .followerAvatar {
-  width: 100px;
-  margin: 5px;
-}
-
-.avatar:hover {
-  border: 3px solid blue;
-}
-
-.card img {
-  width: 100%;
 }
