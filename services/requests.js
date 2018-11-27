@@ -1,6 +1,12 @@
 const Request = require('request');
+const _ = require('lodash');
+
 let ifNoneMatch = [];
 let modifiedDate = new Date();
+let avatarList = [];
+let followerList = [];
+let detailList = [];
+
 module.exports = {
   doRequest: function doRequest(uri, res, id) {
     const gitHeader = {
@@ -19,35 +25,38 @@ module.exports = {
       }
 
       let avatars;
+      let jBody;
       let etag = response.headers.etag;
 
-      // if(ifNoneMatch.indexOf(etag) === -1) {
-      //   ifNoneMatch.push(etag);
-      // }
+      if(ifNoneMatch.indexOf(etag) === -1) {
+        ifNoneMatch.push(etag);
+      }
       console.log(response.headers.status);
       console.log('remaining: ', response.headers['x-ratelimit-remaining']);
       if(body) {
-        let jBody = JSON.parse(body);
+        jBody = JSON.parse(body);
+      } else {
+        jBody = body;
+      }
         if (id == 'login') {
-          avatars = parseDetails(jBody);
+          avatars = parseDetails(jBody, uri);
         } else if (id == 'search') {
           let arr = jBody.items;
-          avatars = parseAvatars(arr);
+          avatars = parseAvatars(arr, uri);
         } else if (id == 'root') {
-          avatars = parseAvatars(jBody);
+          avatars = parseAvatars(jBody, uri);
         } else {
-          avatars = parseFollowers(jBody, id)
+          avatars = parseFollowers(jBody, id, uri)
         }
-      }
 
       res.send(avatars);
     });
   }
 }
 
-function parseAvatars(body) {
+function parseAvatars(body, uri) {
   if (!body) {
-    return;
+    return _.result(_.find(avatarList, { 'uri': uri }), 'repos');
   }
   let repos = [];
   body.forEach(repo => {
@@ -58,15 +67,15 @@ function parseAvatars(body) {
       followers: checkForA(repo.owner),
     });
   });
-
+  avatarList.push({ uri: uri, repos: repos });
   return repos;
 };
 
-function parseDetails(detail) {
+function parseDetails(detail, uri) {
   if (!detail) {
-    return;
+    return _.result(_.find(detailList, { 'uri': uri }), 'details');
   }
-  return {
+  let details = {
     login: detail.login,
     name: detail.name,
     company: detail.company,
@@ -75,11 +84,13 @@ function parseDetails(detail) {
     html_url: detail.html_url,
     avatar: detail.avatar_url
   };
+  detailList.push({ uri: uri, details: details })
+  return details;
 }
 
-function parseFollowers(body, login) {
+function parseFollowers(body, login, uri) {
   if (!body) {
-    return;
+    return _.result(_.find(followerList, { 'uri': uri }), 'followers');
   }
   let followers = [];
   let response = [];
@@ -92,6 +103,7 @@ function parseFollowers(body, login) {
   });
 
   response.push(followers, login);
+  followerList.push({ uri: uri, followers: response });
   return response;
 };
 
